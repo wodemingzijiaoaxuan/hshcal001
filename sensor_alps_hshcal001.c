@@ -8,6 +8,14 @@
 #define DBG_COLOR
 #include <rtdbg.h>
 
+#if defined(RT_VERSION_CHECK)
+    #if (RTTHREAD_VERSION >= RT_VERSION_CHECK(5, 0, 2))
+        #define RT_SIZE_TYPE   rt_ssize_t
+    #else
+        #define RT_SIZE_TYPE   rt_size_t
+    #endif
+#endif
+
 /***********  Common  *****************/
 
 static HSHCAL001_Object_t hshcal001;
@@ -137,7 +145,7 @@ static rt_err_t _hshcal001_temp_set_power(rt_sensor_t sensor, rt_uint8_t power)
     return RT_EOK;
 }
 
-static rt_size_t hshcal001_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len)
+static RT_SIZE_TYPE hshcal001_fetch_data(struct rt_sensor_device *sensor, void *buf, rt_size_t len)
 {
     struct rt_sensor_data *data = (struct rt_sensor_data *)buf;
     
